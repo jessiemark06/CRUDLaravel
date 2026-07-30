@@ -6,6 +6,7 @@
     <title>Student Lists</title>
 </head>
 <style>
+ 
     .table-container {
         width: 80%;
         margin: 30px auto;
@@ -78,15 +79,34 @@
         }
 </style>
 <body>
-    <div class="table-container">
+ 
 
+    <div class="table-container">
+     
     <div class="table-header">
         <h2>Student List</h2>
+ 
+        <form action="/">
+            <input type="text"
+            name="search"
+            placehoder="Search student"
+            value="{{request('search')}}">
+
+            <button type="submit">Search</button>
+        </form>
 
         <a href="/student/add">
             <button>Add Student</button>
         </a>
     </div>
+
+  @if(session('info'))
+            <p>{{session('info')}}</p>
+            @endif
+
+    @if(session('success'))
+    <p>{{session('success')}}</p>
+    @endif
 
     <table>
         <thead>
@@ -129,7 +149,7 @@
                 </tr>
             @endforeach
 
-            
+
         </tbody>
     </table>
 

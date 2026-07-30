@@ -11,12 +11,25 @@ class StudentsController extends Controller
     return view('index');
    }
 
-   public function display(){
+   public function display(Request $request){
       
-      $students = Students::all();
+      $students = Students::query();
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+
+        $students->where(function ($query) use ($search) {
+            $query->where('first_name', 'like', '%' . $search . '%')
+                  ->orWhere('last_name', 'like', '%' . $search . '%')
+                  ->orWhere('course', 'like', '%' . $search . '%');
+        });
+    }
+        
+      $students = $students->get();
 
       return view('index', compact('students'));
    }
+
 
    public function add(){
       return view('students/add');
@@ -58,7 +71,7 @@ class StudentsController extends Controller
 
       $student = Students::findorfail($id);
 
-      $student->update([
+      $student->fill([
          'first_name' => $request->first_name,
          'last_name' => $request->last_name,
          'course' => $request->course,
@@ -68,7 +81,12 @@ class StudentsController extends Controller
          'number' => $request->number,
          'address'=> $request->address,
       ]);
-      return redirect('/');
+     if(!$student->isDirty()){
+       return redirect('/')->with('info', "No changes were made.");
+     }
+     $student->save();
+
+     return redirect('/')->with('success', "Student updated sucessfully!");
    }
 
    public function delete($id){
