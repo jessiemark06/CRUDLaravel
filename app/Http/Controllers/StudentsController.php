@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Students;
+
+class StudentsController extends Controller
+{
+   public function home(){
+    return view('index');
+   }
+
+   public function display(){
+      
+      $students = Students::all();
+
+      return view('index', compact('students'));
+   }
+
+   public function add(){
+      return view('students/add');
+   }
+
+   public function create(Request $request){
+      $request->validate([
+         'first_name' => 'required|max:50',
+         'last_name' => 'required|max:50',
+          'course' => 'required|max:50',
+         'year' =>'required|integer',
+         'sex' => 'required|max:50',
+         'birthdate' => 'required|max:50',
+         'number' => 'required|integer',
+         'address'=> 'required',
+      ]);
+      Students::create([
+         'first_name' => $request->first_name,
+         'last_name' => $request->last_name,
+         'course' => $request->course,
+         'year' => $request->year,
+         'sex' => $request->sex,
+         'birthdate' => $request->birthdate,
+         'number' => $request->number,
+         'address'=> $request->address,
+      ]);
+      return redirect('/');
+
+   }
+
+   public function edit($id){
+      
+      $student = Students::findorfail($id);
+
+      return view('students.edit', compact('student')); 
+   }
+
+   public function update(Request $request, $id){
+
+      $student = Students::findorfail($id);
+
+      $student->update([
+         'first_name' => $request->first_name,
+         'last_name' => $request->last_name,
+         'course' => $request->course,
+         'year' => $request->year,
+         'sex' => $request->sex,
+         'birthdate' => $request->birthdate,
+         'number' => $request->number,
+         'address'=> $request->address,
+      ]);
+      return redirect('/');
+   }
+
+   public function delete($id){
+      $student = Students::findorfail($id);
+
+      $student->delete();
+
+      return redirect('/');
+   }
+
+   public function view($id){
+
+      $student = Students::findorfail($id);
+      
+      return view('students.view', compact('student'));
+   }
+}
