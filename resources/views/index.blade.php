@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Lists</title>
+ 
 </head>
+
 <style>
  
     .table-container {
@@ -152,6 +154,21 @@
 
         </tbody>
     </table>
+
+  <div class="pagination">
+     @if($students->onFirstPage())
+         <span>Previous</span>
+     @else
+         <a href="{{ $students->previousPageUrl()}}">Previous</a>
+    @endif
+    
+    <span> {{$students->currentPage()}} of {{$students->lastPage()}}</span>
+    @if($students->hasMorePages())
+        <a href="{{$students->nextPageUrl()}}">Next</a>
+    @else
+        <span>Next</span>
+    @endif
+</div>
 
 </div>
     

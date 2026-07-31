@@ -13,21 +13,22 @@ class StudentsController extends Controller
 
    public function display(Request $request){
       
-      $students = Students::query();
+      $student = Students::query();
 
-    if ($request->filled('search')) {
-        $search = $request->search;
+      if($request->filled('search')){
+         $search = $request->search;
 
-        $students->where(function ($query) use ($search) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                  ->orWhere('last_name', 'like', '%' . $search . '%')
-                  ->orWhere('course', 'like', '%' . $search . '%');
-        });
-    }
-        
-      $students = $students->get();
+         $student->where(function($query) use($search){
+            $query->where('first_name', 'like', '%'.$search.'%')
+                  ->orWhere('last_name', 'like', '%'.$search.'%')
+                  ->orWhere('course', 'like', '%'.$search.'%');
+         });
+      }
+      
+      $students = $student->paginate(3)->withQueryString();
 
       return view('index', compact('students'));
+   
    }
 
 
@@ -56,7 +57,7 @@ class StudentsController extends Controller
          'number' => $request->number,
          'address'=> $request->address,
       ]);
-      return redirect('/');
+      return redirect('/'); 
 
    }
 
