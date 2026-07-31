@@ -24,12 +24,12 @@ class StudentsController extends Controller
                   ->orWhere('course', 'like', '%'.$search.'%');
          });
       }
-      
-      $students = $student->paginate(3)->withQueryString();
+
+      $students = $student->paginate(10)->withQueryString();
 
       return view('index', compact('students'));
    
-   }
+   } 
 
 
    public function add(){
