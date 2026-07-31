@@ -4,173 +4,214 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Lists</title>
- 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<body class="bg-light">
 
-<style>
+<div class="container py-5">
  
-    .table-container {
-        width: 80%;
-        margin: 30px auto;
-    }
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Student List</h2>
 
-    .table-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .table-header h2 {
-        margin: 0;
-    }
-
-    .table-header button {
-        padding: 8px 15px;
-        cursor: pointer;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    } 
-  .action-button {
-    display: inline-block;
-    padding: 5px 9px;
-    margin-right: 3px;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    text-decoration: none;
-    cursor: pointer;
-    color: white;
-}
- 
-        .view-button {
-            background-color: #3498db;
-        }
- 
-        .edit-button {
-            background-color: #f39c12;
-        }
- 
-        .delete-button {
-            background-color: #e74c3c;
-        }
- 
-        .view-button:hover {
-            background-color: #2980b9;
-        }
-
-        .edit-button:hover {
-            background-color: #d68910;
-        }
-
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-</style>
-<body>
- 
-
-    <div class="table-container">
-     
-    <div class="table-header">
-        <h2>Student List</h2>
- 
-        <form action="/">
-            <input type="text"
-            name="search"
-            placehoder="Search student"
-            value="{{request('search')}}">
-
-            <button type="submit">Search</button>
-        </form>
-
-        <a href="/student/add">
-            <button>Add Student</button>
+        <a href="/student/add" class="btn btn-primary">
+            Add Student
         </a>
     </div>
-
-  @if(session('info'))
-            <p>{{session('info')}}</p>
-            @endif
+ 
+    @if(session('info'))
+        <div class="alert alert-info">
+            {{ session('info') }}
+        </div>
+    @endif
 
     @if(session('success'))
-    <p>{{session('success')}}</p>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
+ 
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
 
-    <table>
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Course</th>
-                <th>Year</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+            <form action="/" method="GET">
+                <div class="input-group">
 
-        <tbody>
-            @foreach ($students as $student)
-                <tr>
-                    <td>{{ $student->first_name }}</td>
-                    <td>{{ $student->last_name }}</td>
-                    <td>{{ $student->course }}</td>
-                    <td>{{ $student->year }}</td>
-                   <td>
-                    <a href="/student/view/{{ $student->id }}" class="action-button view-button">
-                        View
-                    </a> 
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search student..."
+                        value="{{ request('search') }}"
+                    >
 
-                    <a href="/student/edit/{{ $student->id }}" class="action-button edit-button">
-                        Edit
-                    </a>
+                    <button type="submit" class="btn btn-dark">
+                        Search
+                    </button>
 
-                    <form action="/student/delete/{{ $student->id }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
+                    @if(request('search'))
+                        <a href="/" class="btn btn-outline-secondary">
+                            Clear
+                        </a>
+                    @endif
 
-                        <button type="submit"
-                                class="action-button delete-button"
-                                onclick="return confirm('Are you sure to delete?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-                </tr>
-            @endforeach
+                </div>
+            </form>
 
+        </div>
+    </div> 
+    <div class="card shadow-sm">
 
-        </tbody>
-    </table>
+        <div class="card-body p-0">
 
-  <div class="pagination">
-     @if($students->onFirstPage())
-         <span>Previous</span>
-     @else
-         <a href="{{ $students->previousPageUrl()}}">Previous</a>
-    @endif
-    
-    <span> {{$students->currentPage()}} of {{$students->lastPage()}}</span>
-    @if($students->hasMorePages())
-        <a href="{{$students->nextPageUrl()}}">Next</a>
-    @else
-        <span>Next</span>
-    @endif
+            <div class="table-responsive">
+
+                <table class="table table-hover table-bordered mb-0 align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Course</th>
+                            <th>Year</th>
+                            <th width="220">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @forelse ($students as $student)
+
+                            <tr>
+
+                                <td>
+                                    {{ $student->first_name }}
+                                </td>
+
+                                <td>
+                                    {{ $student->last_name }}
+                                </td>
+
+                                <td>
+                                    {{ $student->course }}
+                                </td>
+
+                                <td>
+                                    {{ $student->year }}
+                                </td>
+
+                                <td>
+ 
+                                    <a
+                                        href="/student/view/{{ $student->id }}"
+                                        class="btn btn-info btn-sm text-white"
+                                    >
+                                        View
+                                    </a>
+ 
+                                    <a
+                                        href="/student/edit/{{ $student->id }}"
+                                        class="btn btn-warning btn-sm"
+                                    >
+                                        Edit
+                                    </a>
+ 
+                                    <form
+                                        action="/student/delete/{{ $student->id }}"
+                                        method="POST"
+                                        class="d-inline"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure to delete?')"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    No students found.
+                                </td>
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+ 
+    <div class="d-flex justify-content-between align-items-center mt-4">
+
+        <div class="text-muted">
+            Page {{ $students->currentPage() }} of {{ $students->lastPage() }}
+        </div>
+
+        <nav>
+
+            <ul class="pagination mb-0">
+
+                @if($students->onFirstPage())
+
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+
+                @else
+
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="{{ $students->previousPageUrl() }}"
+                        >
+                            Previous
+                        </a>
+                    </li>
+
+                @endif
+
+                @if($students->hasMorePages())
+
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="{{ $students->nextPageUrl() }}"
+                        >
+                            Next
+                        </a>
+                    </li>
+
+                @else
+
+                    <li class="page-item disabled">
+                        <span class="page-link">Next</span>
+                    </li>
+
+                @endif
+
+            </ul>
+
+        </nav>
+
+    </div>
+
 </div>
 
-</div>
-    
 </body>
 </html>
