@@ -24,8 +24,11 @@ class StudentsController extends Controller
                   ->orWhere('course', 'like', '%'.$search.'%');
          });
       }
+      if($request->filled('sort')){
+         $student->orderBy($request->sort);
+      }
 
-      $students = $student->paginate(10)->withQueryString();
+      $students = $student->paginate(2)->withQueryString();
 
       return view('index', compact('students'));
    
@@ -47,6 +50,7 @@ class StudentsController extends Controller
          'number' => 'required|integer',
          'address'=> 'required',
       ]);
+
       Students::create([
          'first_name' => $request->first_name,
          'last_name' => $request->last_name,

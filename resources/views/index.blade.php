@@ -43,10 +43,13 @@
                         placeholder="Search student..."
                         value="{{ request('search') }}"
                     >
+                
 
                     <button type="submit" class="btn btn-dark">
                         Search
                     </button>
+
+                 
 
                     @if(request('search'))
                         <a href="/" class="btn btn-outline-secondary">
@@ -57,6 +60,17 @@
                 </div>
             </form>
 
+        </div>
+        <div>
+            <form action="/" method="GET">
+                  <select name="sort" id="">
+                        <option value="first_name">First Name</option>
+                         <option value="last_name">Last Name</option>
+                    </select>
+
+                    <button>Sort</button>
+            </form>
+           
         </div>
     </div> 
     <div class="card shadow-sm">
