@@ -103,6 +103,13 @@ class StudentsController extends Controller
 
       $student = Students::findorfail($id);
 
+   if ($request->hasFile('image')) {
+
+         $image = $request->file('image')->store('students', 'public');
+
+         $student->image = $image;
+      }
+
       $student->fill([
          'first_name' => $request->first_name,
          'last_name' => $request->last_name,
@@ -112,6 +119,7 @@ class StudentsController extends Controller
          'birthdate' => $request->birthdate,
          'number' => $request->number,
          'address'=> $request->address,
+         'image'=> $image,
       ]);
 
      if(!$student->isDirty()){

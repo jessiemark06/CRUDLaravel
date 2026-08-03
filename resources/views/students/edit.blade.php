@@ -18,7 +18,7 @@
     }
 </style>
 <body>
-    <Form action="/student/edit/{{ $student->id }}" method="POST">
+    <Form action="/student/edit/{{ $student->id }}" method="POST" enctype="multipart/form-data">
         @csrf 
         @method('PUT')
         
@@ -49,6 +49,11 @@
         <input type="text" name="number" value="{{$student->number}}"><br> <br>
          <label for="">Address: </label>
         <input type="text" name="address" value="{{$student->address}}"><br> <br>
+        
+        <img src="{{ asset('storage/'.$student->image)}} " alt="Student image" width="100">
+        <label for="">Select Image:</label>
+        <input type="file" name="image">
+        <br> <br>
 
         <button type="submit">Submit</button>
          <a href="/">Back</a>
