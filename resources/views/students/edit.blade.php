@@ -28,7 +28,15 @@
         <input type="text" name="last_name" value="{{$student->last_name}}"><br> <br>
 
         <label for="">Course: </label>
-        <input type="text" name="course" value="{{$student->course}}"><br> <br>
+         <select name="course_id" id="">
+            @foreach($courses as $course)
+             <option value="{{ $course->id }}">
+            {{ $course->course_name }}
+             </option>
+            @endforeach
+        </select>
+        <br> <br>
+
          <label for="">Year: </label>
         <input type="text" name="year" value="{{$student->year}}"><br> <br>
 

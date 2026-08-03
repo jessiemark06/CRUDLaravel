@@ -14,10 +14,17 @@ class Students extends Model
         'first_name',
         'last_name',
         'course',
+         'course_id',
         'year',
         'sex',
         'birthdate',
         'number',
         'address',
+        'image',
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

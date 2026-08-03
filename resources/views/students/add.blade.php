@@ -16,12 +16,17 @@
     input{
         float: right;
     }
+    select{
+         float: right;
+    }
 </style>
 
 <body>
  
-    <Form action="/student/create" method="POST">
+    <Form action="/student/create" method="POST" enctype="multipart/form-data">
         @csrf 
+        
+        <h1>Add Student</h1>
         <label for="">First Name: </label> 
         <input type="text" name="first_name">   
         @error('first_name')
@@ -38,8 +43,15 @@
         <br> <br>
 
         <label for="">Course: </label>
-        <input type="text" name="course">
-        @error('course')
+        <select name="course_id" id="">
+            @foreach($courses as $course)
+             <option value="{{ $course->id }}">
+            {{ $course->course_name }}
+             </option>
+            @endforeach
+        </select>
+
+        @error('course_id')
         <p>{{$message}}</p>
         @enderror
         <br> <br>
@@ -77,6 +89,10 @@
         @error('address')
         <p>{{$message}}</p>
         @enderror
+        <br> <br>
+
+        <label for="">Select Image:</label>
+        <input type="file" name="image">
         <br> <br>
 
         <button type="submit">Submit</button>

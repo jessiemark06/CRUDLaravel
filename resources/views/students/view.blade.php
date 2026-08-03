@@ -7,10 +7,10 @@
 </head>
 <body>
       <h1>Student Details</h1>
-
+    <img src="{{ asset('storage/'.$student->image)}} " alt="Student image" width="100">
     <p><strong>First Name:</strong> {{ $student->first_name }}</p>
     <p><strong>Last Name:</strong> {{ $student->last_name }}</p>
-    <p><strong>Course:</strong> {{ $student->course }}</p>
+    <p><strong>Course:</strong> {{ $student->course->course_name }}</p>
     <p><strong>Year:</strong> {{ $student->year }}</p>
     <p><strong>Sex:</strong> {{ $student->sex }}</p>
     <p><strong>Birthdate:</strong> {{ $student->birthdate }}</p>

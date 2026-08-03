@@ -5,7 +5,12 @@ use App\Http\Controllers\StudentsController;
 
 Route::get('/', [StudentsController::class, 'home']);
 
-Route::get('/', [StudentsController::class, 'display']);
+Route::get('/', [StudentsController::class, 'display']); 
+ 
+
+Route::get('/sort/name', [StudentsController:: class, 'firstSort']);
+
+Route::get('/filter/name', [StudentsController:: class, 'filter']);
 
 Route::get('/student/add', [StudentsController:: class, 'add']);
 

@@ -61,17 +61,37 @@
             </form>
 
         </div>
-        <div>
-            <form action="/" method="GET">
-                  <select name="sort" id="">
-                        <option value="first_name">First Name</option>
-                         <option value="last_name">Last Name</option>
-                    </select>
+       <div class="d-flex gap-3 justify-content-end px-3 pb-3">
 
-                    <button>Sort</button>
-            </form>
-           
-        </div>
+    <form action="/sort/name" method="GET" class="d-flex gap-2 align-items-center">
+        <select name="firstSort" class="form-select">
+            <option value="">Order By</option>
+            <option value="first_name">First Name</option>
+            <option value="last_name">Last Name</option>
+                        <option value="course">Course</option>
+            <option value="year">Year</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">
+            Sort
+        </button>
+    </form>
+ 
+ <form action="/filter/name" method="GET" class="d-flex gap-2 align-items-center">
+        <select name="year" class="form-select">
+            <option value="">Filter By</option> 
+            <option value="1">First Year</option>
+            <option value="2">Second Year</option>
+              <option value="3">Third Year</option>
+            <option value="4">Fourth Year</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">
+            Filter
+        </button>
+    </form>
+
+</div>
     </div> 
     <div class="card shadow-sm">
 
@@ -106,7 +126,7 @@
                                 </td>
 
                                 <td>
-                                    {{ $student->course }}
+                                    {{ $student->course->course_name }}
                                 </td>
 
                                 <td>
