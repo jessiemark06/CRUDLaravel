@@ -76,6 +76,7 @@ class StudentsController extends Controller
       if($request->hasFile('image')){
          $image = $request->file('image')->store('students', 'public');
       }
+      
       Students::create([
          'first_name' => $request->first_name,
          'last_name' => $request->last_name, 
